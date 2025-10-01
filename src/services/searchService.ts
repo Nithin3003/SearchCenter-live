@@ -6,8 +6,8 @@ const GITHUB_CODE_API = 'https://api.github.com/search/code';
 const GITHUB_REPOS_API = 'https://api.github.com/search/repositories';
 const STACKOVERFLOW_API = 'https://api.stackexchange.com/2.3/search/advanced';
 // API keys
-const API_KEY_stack = 'rl_E3Cw6rhQyQHAAhiTbyHKPpX44';
-const API_KEY_github = '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';
+const API_KEY_stack = ;
+const API_KEY_github = ;
 
 // Error types for better error handling
 export interface SearchError {
