@@ -25,7 +25,7 @@ interface IntegrationTest {
   duration?: number;
 }
 
-class ServiceIntegration {
+class ServiceIntegrationService {
   private testResults: IntegrationTest[] = [];
   private services: Map<string, ServiceStatus> = new Map();
 
