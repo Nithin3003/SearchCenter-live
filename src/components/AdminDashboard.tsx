@@ -36,6 +36,7 @@ import {
   Refresh
 } from 'lucide-react';
 import AdminNotifications from './AdminNotifications';
+import AnalyticsDashboard from './AnalyticsDashboard';
 import { adminNotifications } from '../services/adminNotificationService';
 import { config } from '../config/envConfig';
 
