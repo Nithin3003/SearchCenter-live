@@ -12,7 +12,11 @@ import {
   FileText,
   Loader2,
   ArrowUpDown,
-  ChevronDown
+  ChevronDown,
+  Star,
+  Eye,
+  Download,
+  Quote
 } from 'lucide-react';
 import { SearchFilters, SearchResult } from '../../services/enhancedSearchService';
 import CodePreview from './CodePreview';
