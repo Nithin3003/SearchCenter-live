@@ -37,6 +37,7 @@ import {
 } from 'lucide-react';
 import AdminNotifications from './AdminNotifications';
 import AnalyticsDashboard from './AnalyticsDashboard';
+import ServiceIntegrationTester from './ServiceIntegrationTester';
 import { adminNotifications } from '../services/adminNotificationService';
 import { config } from '../config/envConfig';
 
