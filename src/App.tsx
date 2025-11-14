@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/clerk-react';
-import { Search, Loader2, Clock, ChevronDown, Filter, FileText } from 'lucide-react';
+import { Search, Loader2, Clock, ChevronDown, Filter, FileText, Sparkles } from 'lucide-react';
 import Navbar from './components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
 import ResultsList from './components/ResultsList';
