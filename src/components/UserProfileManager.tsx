@@ -21,7 +21,8 @@ import {
   Shield,
   Camera,
   MapPin,
-  Briefcase
+  Briefcase,
+  Database
 } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { userService, UserProfile, UserPreferences } from '../services/userService';
