@@ -216,7 +216,7 @@ function App() {
   // Function to highlight matching text in search results
   const highlightMatchingText = (text: string, query: string) => {
     if (!query.trim() || !text) return text;
-    
+
     const regex = new RegExp(`(${query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
     return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
   };
@@ -361,40 +361,11 @@ function App() {
                       </div>
                       <h3 className="font-bold text-xl text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">{category.title}</h3>
                       <p className="text-gray-600 text-sm">{category.description}</p>
+                    </div>
                     </motion.button>
                   ))}
                 </motion.div>
-
-                {/* Recent Searches */}
-                {personalSuggestions.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-12"
-                  >
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <Clock className="h-5 w-5 mr-2 text-blue-500" />
-                      Recent Searches
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {personalSuggestions.map((item, index) => (
-                        <motion.button
-                          key={index}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.8 + index * 0.1 }}
-                          onClick={() => handleSuggestionClick(item)}
-                          className="px-4 py-2 bg-white rounded-full text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center shadow-md border border-gray-200"
-                        >
-                          <Search className="h-3.5 w-3.5 mr-2 text-blue-500" />
-                          {item}
-                        </motion.button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </div>
+              )}
             </div>
           ) : (
             <div className="flex-1 flex">
