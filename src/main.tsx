@@ -9,6 +9,7 @@ import AdminPanel from './pages/AdminPanel';
 import AuthFlow from './components/AuthFlow';
 import './index.css';
 import './styles/designTokens.css';
+import './styles/responsive.css';
 import Profile from './components/Profile';
 import UserProfile from './components/Profile';
 
