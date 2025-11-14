@@ -158,22 +158,12 @@ function App() {
     handleSearch(suggestion);
   };
 
-  const handleFilterChange = (type: string, value: string) => {
-    if (type === 'reset') {
-      setFilters({
-        language: 'all',
-        type: 'all',
-        time: 'all',
-        repository: 'all',
-        sort: 'relevance',
-      });
-      return;
+  const handleFilterChange = (newFilters: SearchFilters | ((filters: SearchFilters) => SearchFilters)) => {
+    if (typeof newFilters === 'function') {
+      setFilters(prev => newFilters(prev));
+    } else {
+      setFilters(newFilters);
     }
-
-    setFilters(prev => ({
-      ...prev,
-      [type]: value,
-    }));
   };
 
   const applyFilters = (results: SearchResult[]) => {
