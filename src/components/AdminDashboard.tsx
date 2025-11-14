@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUser } from '@clerk/clerk-react';
 import {
   LayoutDashboard,
   Users,
@@ -31,8 +32,12 @@ import {
   Plus,
   ChevronDown,
   ChevronUp,
-  UserX
+  UserX,
+  Refresh
 } from 'lucide-react';
+import AdminNotifications from './AdminNotifications';
+import { adminNotifications } from '../services/adminNotificationService';
+import { config } from '../config/envConfig';
 
 interface AdminDashboardProps {
   onClose?: () => void;
