@@ -274,177 +274,162 @@ function App() {
     <>
       <Toaster position="top-right" />
       <div className="flex flex-col min-h-screen bg-gray-50">
-        <Navbar />
+        <ModernNavbar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          enableAIMode={enableAIMode}
+          onAIModeToggle={setEnableAIMode}
+        />
 
-        {/* Main content - Fixed padding top to prevent content from going under navbar */}
-        <main className="flex-grow pt-16"> {/* Added fixed top padding */}
+        {/* Main Content */}
+        <main className="flex flex-1 pt-16">
           {!query ? (
-            <div className="flex items-center justify-center min-h-[calc(100vh-64px)]">
-              <div className="w-full max-w-2xl px-4">
-                {/* SearchCenter logo */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="w-full max-w-4xl px-4">
+                {/* SearchCenter Hero */}
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center mb-12"
                 >
-                  <div className="flex justify-center items-center relative">
-                    <Search className="h-16 w-16 text-blue-600 mx-auto" />
-                    <h1 className="text-5xl font-bold text-gray-900 mt-4">SearchCenter</h1>
-                    <p className="text-gray-500 mt-2">Find code. Build faster. Learn together.</p>
+                  <div className="flex justify-center items-center mb-8">
+                    <div className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-lg">
+                      <Search className="h-12 w-12 text-white" />
+                    </div>
                   </div>
+                  <h1 className="text-5xl font-bold text-gray-900 mb-4">SearchCenter</h1>
+                  <p className="text-xl text-gray-600 mb-8">Discover Code, Videos, Datasets & Papers</p>
+                  <p className="text-gray-500 max-w-2xl mx-auto">
+                    Search across millions of resources with AI-powered recommendations. Build projects, learn skills, and accelerate your development journey.
+                  </p>
                 </motion.div>
 
-                {/* Search Bar */}
+                {/* Quick Search Categories */}
                 <motion.div
-                  className="relative"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", delay: 0.4 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
-                  {renderSearchBar()}
-
-                  {/* Search Suggestions */}
-                  <AnimatePresence>
-                    {suggestions.length > 0 && (
-                      <motion.ul
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-2xl z-10 overflow-hidden"
-                      >
-                        {suggestions.map((suggestion, index) => (
-                          <motion.li
-                            key={index}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            className="px-5 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-0"
-                          >
-                            <div className="flex items-center">
-                              <Search className="h-4 w-4 text-blue-500 mr-3" />
-                              <span>{suggestion}</span>
-                            </div>
-                          </motion.li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
+                  {[
+                    {
+                      title: "Code",
+                      description: "Search repositories, examples, and snippets",
+                      icon: Code2,
+                      color: "from-blue-500 to-indigo-600",
+                      count: "1250+",
+                    },
+                    {
+                      title: "Videos",
+                      description: "Educational tutorials and talks",
+                      icon: PlayCircle,
+                      color: "from-red-500 to-pink-600",
+                      count: "890+",
+                    },
+                    {
+                      title: "Datasets",
+                      description: "Kaggle datasets for ML projects",
+                      icon: Database,
+                      color: "from-green-500 to-teal-600",
+                      count: "450+",
+                    },
+                    {
+                      title: "Papers",
+                      description: "Research papers and publications",
+                      icon: FileText,
+                      color: "from-purple-500 to-violet-600",
+                      count: "675+",
+                    }
+                  ].map((category, index) => (
+                    <motion.button
+                      key={category.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 + index * 0.1, type: "spring" }}
+                      onClick={() => setActiveTab(category.title.toLowerCase())}
+                      className="p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-all duration-300 text-left relative overflow-hidden group"
+                    >
+                      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${category.color}`}></div>
+                      <div className="flex items-center mb-4">
+                        <div className={`p-3 rounded-lg bg-gradient-to-r ${category.color}`}>
+                          <category.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <span className="ml-3 text-2xl font-bold text-gray-800">{category.count}</span>
+                      </div>
+                      <h3 className="font-bold text-xl text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">{category.title}</h3>
+                      <p className="text-gray-600 text-sm">{category.description}</p>
+                    </motion.button>
+                  ))}
                 </motion.div>
 
-                {/* Personal Suggestions (search history) */}
+                {/* Recent Searches */}
                 {personalSuggestions.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="mt-8"
+                    transition={{ delay: 0.8 }}
+                    className="mt-12"
                   >
-                    <h3 className="text-sm font-medium text-gray-500 mb-3">Recent searches:</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                      <Clock className="h-5 w-5 mr-2 text-blue-500" />
+                      Recent Searches
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {personalSuggestions.map((item, index) => (
                         <motion.button
                           key={index}
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.6 + index * 0.1 }}
+                          transition={{ delay: 0.8 + index * 0.1 }}
                           onClick={() => handleSuggestionClick(item)}
-                          className="px-4 py-2 bg-white rounded-full text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center shadow-md"
+                          className="px-4 py-2 bg-white rounded-full text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center shadow-md border border-gray-200"
                         >
-                          <Clock className="h-3.5 w-3.5 mr-2 text-blue-500" />
+                          <Search className="h-3.5 w-3.5 mr-2 text-blue-500" />
                           {item}
                         </motion.button>
                       ))}
                     </div>
                   </motion.div>
                 )}
-
-                {/* Quick Suggestion Categories */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6"
-                >
-                  {[
-                    {
-                      title: "JavaScript",
-                      description: "Popular tutorials and examples",
-                      query: "JavaScript tutorials",
-                      color: "from-orange-400 to-red-500",
-                      delay: 0.8
-                    },
-                    {
-                      title: "React Hooks",
-                      description: "Code examples and best practices",
-                      query: "React hooks examples",
-                      color: "from-blue-400 to-indigo-500",
-                      delay: 0.9
-                    },
-                    {
-                      title: "TypeScript",
-                      description: "Interfaces and type definitions",
-                      query: "TypeScript interfaces",
-                      color: "from-teal-400 to-green-500",
-                      delay: 1.0
-                    }
-                  ].map((category, index) => (
-                    <motion.button
-                      key={index}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: category.delay, type: "spring" }}
-                      onClick={() => handleSuggestionClick(category.query)}
-                      className="p-5 rounded-xl shadow-lg bg-white hover:shadow-xl transition-all duration-300 text-left relative overflow-hidden group"
-                    >
-                      <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${category.color}`}></div>
-                      <h3 className="font-bold text-xl text-gray-800 mt-2 group-hover:text-blue-600 transition-colors">{category.title}</h3>
-                      <p className="text-gray-500 mt-1 text-sm">{category.description}</p>
-
-                      <div className="mt-4 flex justify-end">
-                        <div className="text-xs text-blue-600 flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          Search now <ChevronDown className="h-3 w-3 ml-1 rotate-270" />
-                        </div>
-                      </div>
-                    </motion.button>
-                  ))}
-                </motion.div>
               </div>
             </div>
           ) : (
-            <div className="pt-6 pb-8 px-4 sm:px-6 lg:px-8"> {/* Adjusted padding */}
-              <div className="w-full max-w-7xl mx-auto">
-                {/* Keep search bar visible on results page */}
-                <div className="mb-6">
-                  {renderSearchBar()}
-                </div>
+            <div className="flex-1 flex">
+              {/* Sidebar */}
+              <EnhancedSidebar
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                resultCounts={resultCounts}
+                isOpen={sidebarOpen}
+                onToggle={() => setSidebarOpen(!sidebarOpen)}
+              />
 
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mb-4"
-                >
-                  <h2 className="text-lg font-medium text-gray-900 mb-2">
-                    Results for <span className="font-bold">{query}</span>
-                  </h2>
-                </motion.div>
+              {/* Results Area */}
+              <div className="flex-1 overflow-hidden">
+                <div className="h-full overflow-y-auto">
+                  <div className="max-w-7xl mx-auto p-6">
+                    {/* Results Header */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="mb-6"
+                    >
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-semibold text-gray-900">
+                          Results for <span className="text-blue-600">"{query}"</span>
+                        </h2>
+                        <div className="flex items-center space-x-2">
+                          {enableAIMode && (
+                            <div className="px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm rounded-full flex items-center">
+                              <Sparkles className="h-4 w-4 mr-1" />
+                              AI Mode
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
 
-                {/* Two-column layout with FilterBar on left and results on right */}
-                <div className="flex flex-col lg:flex-row gap-6">
-                  {/* Left Column - FilterBar */}
-                  <div className="w-full lg:w-64 flex-shrink-0">
-                    <FilterBar 
-                      filters={filters}
-                      onFilterChange={handleFilterChange}
-                      resultCount={filteredResults.length}
-                      activeTab={activeTab}
-                      setActiveTab={setActiveTab}
-                      results={filteredResults}
-                    />
-                  </div>
-                  
-                  {/* Right Column - Results */}
-                  <div className="flex-1">
+                    {/* Resource Grid */}
                     <AnimatePresence mode="wait">
                       {loading ? (
                         <motion.div
@@ -455,7 +440,7 @@ function App() {
                           className="flex justify-center items-center h-64"
                         >
                           <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
-                          <span className="ml-2 text-gray-600">Searching...</span>
+                          <span className="ml-2 text-gray-600">Searching across all resources...</span>
                         </motion.div>
                       ) : (
                         <motion.div
@@ -464,51 +449,13 @@ function App() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
                         >
-                          {/* Show README.md matches if available */}
-                          {showReadme && filteredResults.some(result => result.source.includes('README.md') || result.title?.includes('README')) && (
-                            <div className="mb-8 bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-                              <h3 className="text-lg font-semibold mb-2 flex items-center">
-                                <FileText className="mr-2 h-5 w-5 text-blue-500" />
-                                README Files
-                              </h3>
-
-                              <div className="space-y-4">
-                                {filteredResults
-                                  .filter(result => result.source.includes('README.md') || result.title?.includes('README'))
-                                  .slice(0, 3)
-                                  .map((result, idx) => (
-                                    <div key={`readme-${idx}`} className="border-t border-gray-100 pt-3 first:border-0 first:pt-0">
-                                      <a 
-                                        href={result.url} 
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
-                                      >
-                                        {result.title || result.source}
-                                      </a>
-                                      {result.description && (
-                                        <p 
-                                          className="text-sm text-gray-700 mt-1"
-                                          dangerouslySetInnerHTML={{ __html: highlightMatchingText(result.description, query) }}
-                                        />
-                                      )}
-                                      <div className="flex items-center mt-2 text-xs text-gray-500">
-                                        <span className="flex items-center">
-                                          <span className="w-2 h-2 rounded-full bg-blue-400 mr-1.5"></span>
-                                          {result.source.split('/').slice(-2).join('/')}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  ))}
-                              </div>
-                            </div>
-                          )}
-
-                          <ResultsList
-                            results={filteredResults}
+                          <ResourceGrid
+                            results={allResults}
+                            loading={loading}
                             searchQuery={query}
                             filters={filters}
                             onFilterChange={handleFilterChange}
+                            totalCount={resultCounts.total}
                           />
                         </motion.div>
                       )}
@@ -516,11 +463,24 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </main>
         <Footer />
       </div>
+
+      {/* AI Project Builder Modal */}
+      <AnimatePresence>
+        {enableAIMode && (
+          <AIProjectBuilder
+            onClose={() => setEnableAIMode(false)}
+            onProjectCreated={(project) => {
+              console.log('Project created:', project);
+              // Handle project creation
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
