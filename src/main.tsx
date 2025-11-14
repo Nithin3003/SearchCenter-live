@@ -7,6 +7,7 @@ import App from './App';
 import Feedback from './pages/Feedback';
 import AdminPanel from './pages/AdminPanel';
 import './index.css';
+import './styles/designTokens.css';
 import Profile from './components/Profile';
 import UserProfile from './components/Profile';
 
