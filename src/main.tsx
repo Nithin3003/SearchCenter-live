@@ -29,12 +29,13 @@ function ClerkProviderWithRoutes() {
     >
       <Routes>
         {/* Public routes */}
+        <Route path="/auth" element={<AuthFlow />} />
         <Route
           path="/sign-in/*"
           element={
             <center>
               <SignIn routing="path" path="/sign-in" fallbackRedirectUrl="/" />
-            </center> 
+            </center>
           }
         />
         <Route
@@ -42,7 +43,7 @@ function ClerkProviderWithRoutes() {
           element={
             <center>
               <SignUp routing="path" path="/sign-up" fallbackRedirectUrl="/" />
-            </center> 
+            </center>
           }
         />
 
