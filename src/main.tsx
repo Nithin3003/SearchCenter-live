@@ -48,25 +48,69 @@ function ClerkProviderWithRoutes() {
           }
         />
 
+        {/* Public Landing Page */}
+        <Route
+          path="/"
+          element={<App />}
+        />
+
+        {/* Public Authentication Route */}
+        <Route path="/auth" element={<AuthFlow />} />
+
         {/* Private routes: Render content only when signed in */}
         <Route
-          path="/*"
+          path="/dashboard/*"
           element={
             <>
               <SignedIn>
                 <Routes>
-                  <Route path="/" element={<App />} />
-                  <Route path="/feedback" element={<Feedback />} />
-                  <Route path="/admin" element={<AdminPanel />} />
-                  <Route path="/user" element={<UserProfile />} />
-      
-                 
+                  <Route path="/dashboard" element={<App />} />
+                  <Route path="/dashboard/search" element={<App />} />
+                  <Route path="/dashboard/projects" element={<App />} />
+                  <Route path="/dashboard/profile" element={<UserProfile />} />
+                  <Route path="/dashboard/feedback" element={<Feedback />} />
+                  <Route path="/dashboard/settings" element={<UserProfile />} />
                 </Routes>
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
               </SignedOut>
             </>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin/*"
+          element={
+            <>
+              <SignedIn>
+                <Routes>
+                  <Route path="/admin" element={<AdminPanel />} />
+                </Routes>
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+
+        {/* Fallback Routes */}
+        <Route
+          path="/sign-in/*"
+          element={
+            <center>
+              <SignIn routing="path" path="/sign-in" fallbackRedirectUrl="/auth" />
+            </center>
+          }
+        />
+        <Route
+          path="/sign-up/*"
+          element={
+            <center>
+              <SignUp routing="path" path="/sign-up" fallbackRedirectUrl="/auth" />
+            </center>
           }
         />
       </Routes>
