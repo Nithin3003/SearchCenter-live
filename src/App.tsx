@@ -12,6 +12,11 @@ import { searchService } from './services/search-service';
 import { useUserSync } from './hooks/useUserSync';
 import Footer from './components/Footer';
 import { Toaster } from 'react-hot-toast';
+import ModernNavbar from './components/layout/ModernNavbar';
+import EnhancedSidebar from './components/layout/EnhancedSidebar';
+import ResourceGrid from './components/resources/ResourceGrid';
+import AIProjectBuilder from './components/ai/AIProjectBuilder';
+import { enhancedSearchService, SearchFilters } from './services/enhancedSearchService';
 
 function App() {
   // Add this hook to ensure user data syncing
