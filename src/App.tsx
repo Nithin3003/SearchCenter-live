@@ -29,17 +29,29 @@ function App() {
   const [personalSuggestions, setPersonalSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const [activeTab, setActiveTab] = useState<'code'>('code');
-  const [filters, setFilters] = useState({
-    language: 'all',
+  const [activeTab, setActiveTab] = useState('all');
+  const [filters, setFilters] = useState<SearchFilters>({
     type: 'all',
     time: 'all',
-    repository: 'all',
     sort: 'relevance',
+    language: 'all',
+    license: 'all',
+    duration: 'all',
+    category: 'all',
   });
   const [error, setError] = useState<string | null>(null);
   const [profileSynced, setProfileSynced] = useState(false);
   const [showReadme, setShowReadme] = useState(true);
+  const [enableAIMode, setEnableAIMode] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [allResults, setAllResults] = useState<SearchResult[]>([]);
+  const [resultCounts, setResultCounts] = useState({
+    total: 0,
+    code: 0,
+    videos: 0,
+    datasets: 0,
+    papers: 0,
+  });
 
   // Fetch user's search history when component mounts
   useEffect(() => {
