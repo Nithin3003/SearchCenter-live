@@ -83,10 +83,29 @@ function App() {
     setQuery(searchQuery);
 
     try {
-      const data = await fetchSearchResults(searchQuery, filters);
-      setResults(data);
+      const searchResults = await enhancedSearchService.searchAll(searchQuery, filters);
 
-      if (data.length === 0) {
+      // Combine all results
+      const combinedResults = [
+        ...searchResults.code.results,
+        ...searchResults.videos.results,
+        ...searchResults.datasets.results,
+        ...searchResults.papers.results,
+      ];
+
+      setAllResults(combinedResults);
+      setResults(combinedResults);
+
+      // Update result counts
+      setResultCounts({
+        total: combinedResults.length,
+        code: searchResults.code.results.length,
+        videos: searchResults.videos.results.length,
+        datasets: searchResults.datasets.results.length,
+        papers: searchResults.papers.results.length,
+      });
+
+      if (combinedResults.length === 0) {
         setError('No results found. Try different search terms or check your filters.');
       }
 
@@ -96,7 +115,7 @@ function App() {
           await searchService.saveSearchHistory({
             user_id: user.id,
             query: searchQuery,
-            result_count: data.length,
+            result_count: combinedResults.length,
             filters,
           });
         } catch (historyError) {
@@ -107,7 +126,8 @@ function App() {
       console.error('Search failed:', err);
       const errorMessage = err.message || 'Search failed. Please try again.';
       setError(errorMessage);
-      setResults([]); // Clear previous results
+      setResults([]);
+      setAllResults([]);
     } finally {
       setLoading(false);
     }
