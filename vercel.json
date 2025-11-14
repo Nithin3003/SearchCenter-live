@@ -6,7 +6,20 @@
   "installCommand": "npm install",
   "framework": "vite",
   "devCommand": "npm run dev",
-  "functions": {},
+  "functions": {
+    "api/search/google.js": {
+      "maxDuration": 10
+    },
+    "api/search/youtube.js": {
+      "maxDuration": 10
+    },
+    "api/webhooks/razorpay.js": {
+      "maxDuration": 30
+    },
+    "api/webhooks/clerk.js": {
+      "maxDuration": 10
+    }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
