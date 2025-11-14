@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import App from './App';
 import Feedback from './pages/Feedback';
 import AdminPanel from './pages/AdminPanel';
+import AuthFlow from './components/AuthFlow';
 import './index.css';
 import './styles/designTokens.css';
 import Profile from './components/Profile';
