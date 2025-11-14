@@ -53,6 +53,9 @@ function App() {
     papers: 0,
   });
 
+  // Check if we're on the landing page (unauthenticated) or dashboard (authenticated)
+  const isLandingPage = !window.location.pathname.includes('/dashboard');
+
   // Fetch user's search history when component mounts
   useEffect(() => {
     const fetchPersonalSuggestions = async () => {
