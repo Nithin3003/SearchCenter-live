@@ -648,25 +648,29 @@ export default function AdminDashboard({ onClose }: AdminDashboardProps) {
             )}
 
             {activeTab === 'settings' && (
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">System Settings</h2>
-                <div className="bg-white rounded-xl p-6 border border-gray-200">
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900">Maintenance Mode</h3>
-                        <p className="text-sm text-gray-500">Temporarily disable platform features</p>
+              <div className="space-y-6">
+                <ServiceIntegrationTester />
+
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900 mb-6">System Settings</h2>
+                  <div className="bg-white rounded-xl p-6 border border-gray-200">
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-medium text-gray-900">Maintenance Mode</h3>
+                          <p className="text-sm text-gray-500">Temporarily disable platform features</p>
+                        </div>
+                        <button
+                          onClick={() => setSystemSettings(prev => ({ ...prev, maintenance: !systemSettings.maintenance }))}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                            systemSettings.maintenance ? 'bg-red-600' : 'bg-gray-200'
+                          }`}
+                        >
+                          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            systemSettings.maintenance ? 'translate-x-6' : 'translate-x-1'
+                          }`} />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setSystemSettings(prev => ({ ...prev, maintenance: !systemSettings.maintenance }))}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          systemSettings.maintenance ? 'bg-red-600' : 'bg-gray-200'
-                        }`}
-                      >
-                        <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          systemSettings.maintenance ? 'translate-x-6' : 'translate-x-1'
-                        }`} />
-                      </button>
                     </div>
                   </div>
                 </div>
