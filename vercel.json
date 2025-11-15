@@ -1,0 +1,73 @@
+{
+  "version": 2,
+  "name": "searchcenter-live",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "devCommand": "npm run dev",
+  "functions": {
+    "api/search/google.js": {
+      "maxDuration": 10
+    },
+    "api/search/youtube.js": {
+      "maxDuration": 10
+    },
+    "api/webhooks/razorpay.js": {
+      "maxDuration": 30
+    },
+    "api/webhooks/clerk.js": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=0, no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_CLERK_PUBLISHABLE_KEY": "@clerk-publishable-key",
+    "VITE_CLERK_SECRET_KEY": "@clerk-secret-key",
+    "VITE_ADMIN_EMAIL": "@admin-email",
+    "VITE_SUPABASE_URL": "@supabase-url",
+    "VITE_SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "VITE_RAZORPAY_KEY": "@razorpay-key",
+    "VITE_RAZORPAY_SECRET": "@razorpay-secret",
+    "VITE_GOOGLE_SEARCH_API_KEY": "@google-search-api-key",
+    "VITE_GEMINI_API_KEY": "@gemini-api-key",
+    "VITE_GITHUB_TOKEN": "@github-token",
+    "VITE_YOUTUBE_API_KEY": "@youtube-api-key",
+    "VITE_KAGGLE_USERNAME": "@kaggle-username",
+    "VITE_KAGGLE_KEY": "@kaggle-key",
+    "VITE_EMAILJS_SERVICE_ID": "@emailjs-service-id",
+    "VITE_EMAILJS_TEMPLATE_ID": "@emailjs-template-id",
+    "VITE_EMAILJS_PUBLIC_KEY": "@emailjs-public-key"
+  },
+  "regions": ["iad1"],
+  "build": {
+    "env": {
+      "VITE_NODE_ENV": "production"
+    }
+  }
+}

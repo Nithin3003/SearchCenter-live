@@ -1,13 +1,20 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "searchcenter-live",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "build:analyze": "vite build --mode analyze"
+  },
+  "homepage": "https://searchcenter-live.vercel.app",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.27.0",

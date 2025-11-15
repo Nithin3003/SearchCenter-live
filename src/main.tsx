@@ -6,7 +6,10 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import App from './App';
 import Feedback from './pages/Feedback';
 import AdminPanel from './pages/AdminPanel';
+import AuthFlow from './components/AuthFlow';
 import './index.css';
+import './styles/designTokens.css';
+import './styles/responsive.css';
 import Profile from './components/Profile';
 import UserProfile from './components/Profile';
 
@@ -27,12 +30,13 @@ function ClerkProviderWithRoutes() {
     >
       <Routes>
         {/* Public routes */}
+        <Route path="/auth" element={<AuthFlow />} />
         <Route
           path="/sign-in/*"
           element={
             <center>
               <SignIn routing="path" path="/sign-in" fallbackRedirectUrl="/" />
-            </center> 
+            </center>
           }
         />
         <Route
@@ -40,29 +44,73 @@ function ClerkProviderWithRoutes() {
           element={
             <center>
               <SignUp routing="path" path="/sign-up" fallbackRedirectUrl="/" />
-            </center> 
+            </center>
           }
         />
 
+        {/* Public Landing Page */}
+        <Route
+          path="/"
+          element={<App />}
+        />
+
+        {/* Public Authentication Route */}
+        <Route path="/auth" element={<AuthFlow />} />
+
         {/* Private routes: Render content only when signed in */}
         <Route
-          path="/*"
+          path="/dashboard/*"
           element={
             <>
               <SignedIn>
                 <Routes>
-                  <Route path="/" element={<App />} />
-                  <Route path="/feedback" element={<Feedback />} />
-                  <Route path="/admin" element={<AdminPanel />} />
-                  <Route path="/user" element={<UserProfile />} />
-      
-                 
+                  <Route path="/dashboard" element={<App />} />
+                  <Route path="/dashboard/search" element={<App />} />
+                  <Route path="/dashboard/projects" element={<App />} />
+                  <Route path="/dashboard/profile" element={<UserProfile />} />
+                  <Route path="/dashboard/feedback" element={<Feedback />} />
+                  <Route path="/dashboard/settings" element={<UserProfile />} />
                 </Routes>
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
               </SignedOut>
             </>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin/*"
+          element={
+            <>
+              <SignedIn>
+                <Routes>
+                  <Route path="/admin" element={<AdminPanel />} />
+                </Routes>
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+
+        {/* Fallback Routes */}
+        <Route
+          path="/sign-in/*"
+          element={
+            <center>
+              <SignIn routing="path" path="/sign-in" fallbackRedirectUrl="/auth" />
+            </center>
+          }
+        />
+        <Route
+          path="/sign-up/*"
+          element={
+            <center>
+              <SignUp routing="path" path="/sign-up" fallbackRedirectUrl="/auth" />
+            </center>
           }
         />
       </Routes>
